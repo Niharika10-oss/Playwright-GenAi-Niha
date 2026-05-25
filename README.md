@@ -50,6 +50,9 @@ export GEMINI_API_KEY="your_actual_api_key_here"
 ### 4.Run the Test Automation Suite
 Execute the tests with the standard pytest CLI tool. Use the -s flag to see the live AI healing logs directly in your terminal console:
 pytest tests/test_e2e.py -s
+
+
+
 📊 Sample Execution Log
 When an intentional locator failure is triggered to test the self-healing capability, the pipeline prints the following tracking details:
 [⚠️ Test Alert] Element 'button[name='Wrong-Add-To-Cart-Button']' not found within 5000ms.
