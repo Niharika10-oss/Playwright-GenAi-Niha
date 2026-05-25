@@ -1,5 +1,6 @@
 import sys
 import os
+is_ci = os.getenv("CI") == "true"
 
 # Dynamically append the project root directory to the Python path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -9,7 +10,7 @@ from helpers import smart_click
 
 def test_error():
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False)
+        browser = p.chromium.launch(headless=is_ci)
         context = browser.new_context()
         page = context.new_page()
         
