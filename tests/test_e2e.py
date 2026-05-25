@@ -1,4 +1,9 @@
-# test_ecommerce_ai.py
+import sys
+import os
+
+# Dynamically append the project root directory to the Python path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from playwright.sync_api import sync_playwright, expect
 from helpers import smart_click
 
@@ -57,3 +62,4 @@ def add_items_to_cart(page):
     
     # Verify both items exist in the checkout preview
     expect(page.locator("div.cart li")).to_have_count(2)
+
