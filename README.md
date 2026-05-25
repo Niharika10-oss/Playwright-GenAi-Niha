@@ -1,154 +1,61 @@
-# Playwright End-to-End Tests (Python)
+# Playwright E2E Test Automation Suite with GenAI Self-Healing 🚀
 
-A collection of end-to-end tests for a demo website built using **Playwright** and **Python**. 
-The main end-to-end script (test_e2e.py) currently executes the following flow:
-   1. Login Flow: Navigates to the demo site and successfully logs in with valid credentials.
-   2. E-commerce Workflow: Adds two distinct items to the shopping cart.
-   3. Validation: Verifies that the cart icon correctly displays a count of 2 items, confirming the successful addition of products.
+A robust, enterprise-grade end-to-end test automation suite built using **Python**, **Playwright**, and **pytest**. This repository showcases modern UI automation patterns, including the Page Object Model (POM), custom interaction wrappers, and an innovative **Generative AI Self-Healing mechanism** powered by the official Google GenAI SDK.
 
 ---
 
-## 🚀 Getting Started
+## 🌟 Key Features
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
-
-### Prerequisites
-
-You need **Python 3.8+** installed on your system.
-
-### Installation
-
-1.  **Clone the repository** (if you haven't already):
-    ```bash
-    git clone [https://github.com/Niharika10-oss/Playwright-Tests.git](https://github.com/Niharika10-oss/Playwright-Tests.git)
-    cd Playwright-Tests
-    ```
-
-2.  **Create and activate a virtual environment** (recommended):
-    ```bash
-    # Create the environment
-    python -m venv venv
-    
-    # Activate the environment (Windows)
-    .\venv\Scripts\activate
-    
-    # Activate the environment (macOS/Linux)
-    source venv/bin/activate
-    ```
-
-3.  **Install dependencies**:
-    ```bash
-    pip install -r requirements.txt
-    ```
-    *(Note: You must first create a `requirements.txt` file containing your dependencies, like `playwright`.)*
-
-4.  **Install Playwright browser drivers**:
-    ```bash
-    playwright install
-    ```
+* **Production-Ready E2E Workflows:** Automates complex user journeys including user authentication, dynamic product catalog interactions, cart state validation, and checkout flows.
+* **🤖 GenAI Smart Self-Healing Wrapper:** Integrated with the `google-genai` SDK using the ultra-fast `gemini-2.5-flash` model. If a standard Playwright element lookup fails due to frontend DOM shifts or layout updates, the framework automatically catches the exception, extracts the local DOM context, and requests an optimized, functional locator from Gemini in real time.
+* **Defensive Strict-Mode Architecture:** Custom helper logic automatically intercepts ambiguous or multi-match selectors returned by the LLM (e.g., repeating e-commerce grid buttons) to ensure flawless test recovery without violating Playwright's strict locator constraints.
+* **Headless CI Ready:** Designed for seamless integration with GitHub Actions CI workflows to trigger headless test execution automatically on code pushes.
 
 ---
 
-## 🏃 Running the Tests
+## 🛠️ Tech Stack
 
-Tests are run using the standard Playwright CLI command.
+* **Core Automation:** Playwright Python
+* **Test Runner:** pytest
+* **AI Integration:** official `google-genai` SDK (`gemini-2.5-flash`)
+* **Language:** Python 3.13+
 
-### Run all tests
+---
 
-To execute all tests defined in the `Playwright_GIT` directory:
+## 📐 Architecture: How the AI Self-Healing Works
 
+When a frontend developer updates an element's class name, ID, or structure, standard automation test suites flake and crash. This project prevents that via a smart fallback orchestration loop:
+
+1. **Execution Fail:** A standard element interaction (`page.locator()`) times out.
+2. **Context Extraction:** The execution loop captures the page's current state and extracts the contextual HTML DOM snippet.
+3. **LLM Analysis:** The broken selector and DOM snapshot are securely routed to the Gemini API using deterministic configuration parameters (`temperature=0.1`).
+4. **Resolution & Defensive Guard:** The script evaluates the AI-suggested locator, applies automated index/hierarchy selectors to bypass multi-element ambiguity, and recovers the test execution dynamically.
+
+---
+
+## 🚀 Getting Started & Local Setup
+
+### 1. Clone the Repository
 ```bash
-# Ensure your virtual environment is active
-pytest
+git clone [https://github.com/Niharika10-oss/Playwright-Tests.git](https://github.com/Niharika10-oss/Playwright-Tests.git)
+cd Playwright-Tests
+Install Dependencies pip install -r requirements.txt
+                     # Ensure you have the required engines installed:
+                     pip install playwright google-genai pytest
+                     playwright install
+Configure Your Environment Variables
+Generate an API key for free via Google AI Studio and set it up locally:On Windows (Command Prompt):
+set GEMINI_API_KEY=your_actual_api_key_here
+On macOS / Linux:
+export GEMINI_API_KEY="your_actual_api_key_here"
+Run the Test Automation Suite
+Execute the tests with the standard pytest CLI tool. Use the -s flag to see the live AI healing logs directly in your terminal console:
+pytest tests/test_e2e.py -s
+📊 Sample Execution Log
+When an intentional locator failure is triggered to test the self-healing capability, the pipeline prints the following tracking details:
+[⚠️ Test Alert] Element 'button[name='Wrong-Add-To-Cart-Button']' not found within 5000ms.
+Initializing AI Self-Healing...
+Sending broken locator and DOM structure to Gemini...
+[✨ AI Healed] Gemini suggested a new working locator: 'text=Add To Cart'
+[Success] Test recovered seamlessly using healed locator!
 
-A good README.md file is crucial for any project, especially for test automation, as it quickly explains what the project is, how to set it up, and how to run the tests.
-
-Since your project is a Playwright test suite built with Python, here is a template with sections and content you should include:
-
-Recommended README.md Structure
-Markdown
-
-# Playwright End-to-End Tests (Python)
-
-A collection of end-to-end tests for a demo website built using **Playwright** and **Python**.
-
----
-
-## 🚀 Getting Started
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
-
-### Prerequisites
-
-You need **Python 3.8+** installed on your system.
-
-### Installation
-
-1.  **Clone the repository** (if you haven't already):
-    ```bash
-    git clone [https://github.com/Niharika10-oss/Playwright-Tests.git](https://github.com/Niharika10-oss/Playwright-Tests.git)
-    cd Playwright-Tests
-    ```
-
-2.  **Create and activate a virtual environment** (recommended):
-    ```bash
-    # Create the environment
-    python -m venv venv
-    
-    # Activate the environment (Windows)
-    .\venv\Scripts\activate
-    
-    # Activate the environment (macOS/Linux)
-    source venv/bin/activate
-    ```
-
-3.  **Install dependencies**:
-    ```bash
-    pip install -r requirements.txt
-    ```
-    *(Note: You must first create a `requirements.txt` file containing your dependencies, like `playwright`.)*
-
-4.  **Install Playwright browser drivers**:
-    ```bash
-    playwright install
-    ```
-
----
-
-## 🏃 Running the Tests
-
-Tests are run using the standard Playwright CLI command.
-
-### Run all tests
-
-To execute all tests defined in the `Playwright_GIT` directory:
-
-```bash
-# Ensure your virtual environment is active
-pytest
-Running tests in headed mode (to watch them run)
-To run tests with a visible browser:
-
-Bash
-
-pytest --headed
-Reporting
-Test results are typically generated in the default format.
-
-📁 Project Structure
-test_e2e.py: Contains the main Playwright test scenarios (e.g., login, navigation, data submission).
-
-requirements.txt: Lists all Python package dependencies.
-
-.gitignore: Specifies files and directories that Git should ignore (like venv/ and cache files).
-
-🛠️ Built With
-Playwright - The automation framework used for testing.
-
-Python - The primary language.
-
-pytest - The test engine.
-
- Author
-link - https://github.com/Niharika10-oss
-username - Niharika10-oss
