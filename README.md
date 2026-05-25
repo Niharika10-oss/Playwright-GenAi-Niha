@@ -39,16 +39,16 @@ When a frontend developer updates an element's class name, ID, or structure, sta
 ```bash
 git clone [https://github.com/Niharika10-oss/Playwright-Tests.git](https://github.com/Niharika10-oss/Playwright-Tests.git)
 cd Playwright-Tests
-Install Dependencies pip install -r requirements.txt
+### 2. Install Dependencies pip install -r requirements.txt
                      # Ensure you have the required engines installed:
                      pip install playwright google-genai pytest
                      playwright install
-Configure Your Environment Variables
+### 3. Configure Your Environment Variables
 Generate an API key for free via Google AI Studio and set it up locally:On Windows (Command Prompt):
 set GEMINI_API_KEY=your_actual_api_key_here
 On macOS / Linux:
 export GEMINI_API_KEY="your_actual_api_key_here"
-Run the Test Automation Suite
+### 4.Run the Test Automation Suite
 Execute the tests with the standard pytest CLI tool. Use the -s flag to see the live AI healing logs directly in your terminal console:
 pytest tests/test_e2e.py -s
 📊 Sample Execution Log
