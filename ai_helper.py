@@ -16,35 +16,41 @@ def get_healed_locator(broken_locator: str, html_snippet: str) -> str:
     client = genai.Client(api_key=api_key)
 
     # 2. Design a strict system instruction to prevent conversational filler
+    # and explicitly prevent strict mode violation errors.
     system_instruction = (
         "You are an expert QA Automation Engineer specialized in Playwright Python. "
         "Your task is to repair broken element locators. You must analyze the provided HTML "
-        "and return ONLY the raw, corrected Playwright locator string (e.g., 'button.submit-btn' "
-        "or 'text=Login'). Do not include any explanations, markdown code blocks, backticks, "
-        "or introductory text."
+        "and return ONLY the raw, corrected Playwright locator string. "
+        "CRITICAL: To avoid Playwright 'strict mode violation' errors caused by multiple matching elements "
+        "(like multiple 'Add to Cart' buttons on a page), ensure your locator is highly specific. "
+        "If the element is inside a specific card or product section, include the parent text or container "
+        "in your locator (e.g., 'div.card-body:has-text(\"ZARA COAT 3\") >> button' or 'button.btn-add'). "
+        "Do not include any explanations, markdown code blocks, backticks, or introductory text."
     )
 
     # 3. Formulate the explicit user prompt
     prompt = f"""
-    The following Playwright selector failed to find its element: '{broken_locator}'
+    The following Playwright selector failed to find its target element: '{broken_locator}'
     
     Here is a snippet of the current page HTML surrounding the intended element area:
     ---
     {html_snippet}
     ---
     
-    Analyze the HTML structure. Find the element that most closely matches the intent of the original selector.
-    Provide a robust, optimized alternative CSS selector or text selector that Playwright can resolve.
+    Task:
+    1. Analyze the HTML structure.
+    2. Find the exact element that matches the original intent (e.g., clicking a specific item's button).
+    3. Provide a highly specific, unique CSS selector, text selector, or chained locator that Playwright can resolve without hitting multi-element ambiguity.
     """
 
     try:
-        # 4. Generate content using the fast, cost-effective gemini-2.5-flash model
+        # 4. Generate content using the gemini-2.5-flash model
         response = client.models.generate_content(
             model="gemini-2.5-flash",
             contents=prompt,
             config=types.GenerateContentConfig(
                 system_instruction=system_instruction,
-                temperature=0.1 # Low temperature ensures highly deterministic, exact answers
+                temperature=0.1  # Low temperature ensures highly deterministic, exact answers
             )
         )
         
