@@ -36,10 +36,9 @@ When a frontend developer updates an element's class name, ID, or structure, sta
 ## 🚀 Getting Started & Local Setup
 
 ### 1. Clone the Repository
-```bash
 git clone [https://github.com/Niharika10-oss/Playwright-Tests.git](https://github.com/Niharika10-oss/Playwright-Tests.git)
 cd Playwright-Tests
-### 2. Install Dependencies pip install -r requirements.txt
+### 2.  Install Dependencies pip install -r requirements.txt
                      # Ensure you have the required engines installed:
                      pip install playwright google-genai pytest
                      playwright install
